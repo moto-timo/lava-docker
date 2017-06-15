@@ -16,4 +16,3 @@ lava-server manage workers add $(hostname)
 # Add a single QEMU device
 lava-server manage device-types add qemu
 lava-server manage devices add  --device-type qemu --worker $(hostname) qemu-01
-lava-server manage device-dictionary --hostname qemu-01 --import /etc/dispatcher-config/devices/qemu-device-dictionary.jinja2
