@@ -1,4 +1,4 @@
-FROM bitnami/minideb:unstable
+FROM debian:jessie-backports
 
 # Add services helper utilities to start and stop LAVA
 COPY scripts/stop.sh .
@@ -10,7 +10,8 @@ COPY scripts/start.sh .
 RUN echo 'lava-server   lava-server/instance-name string lava-docker-instance' | debconf-set-selections \
  && echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
  && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
- && DEBIAN_FRONTEND=noninteractive install_packages \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  locales \
  postgresql \
  screen \
@@ -23,7 +24,7 @@ RUN echo 'lava-server   lava-server/instance-name string lava-docker-instance' |
  && apt-key add production-repo.key.asc \
  && echo 'deb http://images.validation.linaro.org/production-repo/ sid main' > /etc/apt/sources.list.d/lava.list \
  && apt-get clean && apt-get update \
- && DEBIAN_FRONTEND=noninteractive install_packages \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y -t jessie-backports \
  lava \
  qemu-system \
  qemu-system-arm \
